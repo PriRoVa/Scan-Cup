@@ -1,1 +1,8 @@
 @import "tailwindcss";
+
+@theme {
+    --color-cyan-pulse: #00D1B2;
+    --color-midnight-grid: #001F3F;
+    --color-pure-signal: #FFFFFF;
+    --color-carbon-core: #2E2E2E;
+}
