@@ -1,16 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
-import * as THREE from 'three';
-
-// Add type definition for the global MINDAR object
-declare global {
-    interface Window {
-        MINDAR: {
-            IMAGE: {
-                MindARThree: any;
-            };
-        };
-    }
-}
+import { useEffect, useState } from 'react';
 
 interface ARViewProps {
     onScan: (cardId: string) => void;
@@ -18,70 +6,70 @@ interface ARViewProps {
 }
 
 export function ARView({ onScan, onBack }: ARViewProps) {
-    const containerRef = useRef<HTMLDivElement>(null);
     const [started, setStarted] = useState(false);
 
     useEffect(() => {
-        if (!containerRef.current) return;
+        // Simulate camera initialization
+        const timer = setTimeout(() => {
+            setStarted(true);
+        }, 1000);
 
-        console.log("Initializing MindAR...");
-
-        // Use the global window object to access MindAR
-        const MindARThree = window.MINDAR.IMAGE.MindARThree;
-
-        const mindarThree = new MindARThree({
-            container: containerRef.current,
-            imageTargetSrc: "https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.0/examples/image-tracking/assets/card-example/card.mind",
-            uiScanning: "yes",
-            uiLoading: "yes",
-        });
-
-        const { renderer, scene, camera } = mindarThree;
-
-        const date = new Date();
-        const year = date.getFullYear();
-
-        // Add a simple 3D object to the first target anchor
-        const anchor = mindarThree.addAnchor(0);
-
-        // Create a plane to show as overlay
-        const geometry = new THREE.PlaneGeometry(1, 0.55);
-        const material = new THREE.MeshBasicMaterial({ color: 0x00ffff, transparent: true, opacity: 0.5 });
-        const plane = new THREE.Mesh(geometry, material);
-        anchor.group.add(plane);
-
-        // Text Texture for "Player Found" effect (Simplification for now using geometry)
-        // In a real app we'd load a 3D model or a nice texture
-
-        const start = async () => {
-            try {
-                await mindarThree.start();
-                renderer.setAnimationLoop(() => {
-                    renderer.render(scene, camera);
-                });
-                setStarted(true);
-            } catch (err) {
-                console.error("Failed to start MindAR", err);
-            }
-        };
-
-        start();
-
-        return () => {
-            console.log("Cleaning up MindAR...");
-            renderer.setAnimationLoop(null);
-            try {
-                mindarThree.stop();
-            } catch (e) {
-                console.warn("Error stopping MindAR:", e);
-            }
-        };
-    }, []); // Run once on mount
+        return () => clearTimeout(timer);
+    }, []);
 
     return (
         <div className="relative w-full h-screen bg-black overflow-hidden">
-            {/* Camera Container */}
-            <div ref={containerRef} className="w-full h-full absolute top-0 left-0 z-0" />
+            {/* Soccer Field Background */}
+            <div className="w-full h-full absolute top-0 left-0 z-0 bg-linear-to-br from-green-800 via-green-700 to-green-900">
+                {/* Grass Texture Overlay */}
+                <div className="absolute inset-0 bg-linear-to-b from-green-600/20 via-transparent to-green-900/40"></div>
+
+                {/* Field Lines Pattern */}
+                <div className="absolute inset-0 opacity-20">
+                    {/* Horizontal lines */}
+                    <div className="absolute top-1/4 left-0 right-0 h-0.5 bg-white"></div>
+                    <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-white"></div>
+                    <div className="absolute top-3/4 left-0 right-0 h-0.5 bg-white"></div>
+                    {/* Vertical lines */}
+                    <div className="absolute top-0 bottom-0 left-1/4 w-0.5 bg-white"></div>
+                    <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-white"></div>
+                    <div className="absolute top-0 bottom-0 left-3/4 w-0.5 bg-white"></div>
+                    {/* Center circle */}
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 border-2 border-white rounded-full"></div>
+                </div>
+
+                {/* Scanning Frame - Card Shape */}
+                {started && (
+                    <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="relative w-64 h-80 border-4 border-white rounded-2xl shadow-[0_0_40px_rgba(255,255,255,0.5)] bg-green-900/30 backdrop-blur-sm">
+                            {/* Corner Markers - Soccer Style */}
+                            <div className="absolute -top-3 -left-3 w-10 h-10 border-t-4 border-l-4 border-yellow-400 rounded-tl-lg"></div>
+                            <div className="absolute -top-3 -right-3 w-10 h-10 border-t-4 border-r-4 border-yellow-400 rounded-tr-lg"></div>
+                            <div className="absolute -bottom-3 -left-3 w-10 h-10 border-b-4 border-l-4 border-yellow-400 rounded-bl-lg"></div>
+                            <div className="absolute -bottom-3 -right-3 w-10 h-10 border-b-4 border-r-4 border-yellow-400 rounded-br-lg"></div>
+
+                            {/* Scanning Line */}
+                            <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-transparent via-yellow-400 to-transparent shadow-[0_0_20px_rgba(250,204,21,0.8)] animate-scan"></div>
+
+                            {/* Soccer Ball Icon in Center */}
+                            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-30">
+                                <svg className="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Info Text */}
+                {started && (
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 translate-y-40 text-center">
+                        <p className="text-white text-base font-bold animate-pulse drop-shadow-[0_0_10px_rgba(0,0,0,0.8)] bg-green-900/60 px-6 py-2 rounded-full border-2 border-white/30">
+                            ⚽ Buscando jugador...
+                        </p>
+                    </div>
+                )}
+            </div>
 
             {/* UI Overlay */}
             <div className="absolute top-0 left-0 w-full h-full z-10 pointer-events-none flex flex-col justify-between p-6">
@@ -90,14 +78,14 @@ export function ARView({ onScan, onBack }: ARViewProps) {
                 <div className="flex justify-between items-start pointer-events-auto">
                     <button
                         onClick={onBack}
-                        className="bg-midnight-grid/80 text-pure-signal p-3 rounded-full border border-cyan-pulse/50 backdrop-blur-md hover:bg-midnight-grid transition"
+                        className="bg-white/90 text-green-800 p-3 rounded-full border-2 border-white hover:bg-white transition shadow-lg"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
                     {!started && (
-                        <div className="bg-carbon-core/80 text-cyan-pulse px-4 py-2 rounded-full text-sm font-bold animate-pulse">
+                        <div className="bg-white/90 text-green-800 px-4 py-2 rounded-full text-sm font-bold animate-pulse border-2 border-white shadow-lg">
                             Iniciando Cámara...
                         </div>
                     )}
@@ -105,21 +93,31 @@ export function ARView({ onScan, onBack }: ARViewProps) {
 
                 {/* Footer Instructions */}
                 <div className="text-center pointer-events-auto pb-8">
-                    <p className="text-pure-signal bg-midnight-grid/50 inline-block px-6 py-3 rounded-xl backdrop-blur-md border border-pure-signal/10">
-                        Apunta a la estampa para ver la magia ✨
+                    <p className="text-white bg-green-900/80 inline-block px-6 py-3 rounded-xl backdrop-blur-md border-2 border-white/50 shadow-lg font-semibold">
+                        Apunta a la estampa para escanear ⚽
                     </p>
 
-                    {/* Mock Trigger Button for Testing without image */}
+                    {/* Mock Trigger Button for Testing */}
                     <div className="mt-4">
                         <button
                             onClick={() => onScan("MES-10")}
-                            className="text-xs text-pure-signal/30 underline hover:text-cyan-pulse transition"
+                            className="bg-white text-green-800 px-8 py-4 rounded-xl font-bold border-2 border-yellow-400 hover:bg-yellow-400 hover:text-green-900 transition-all shadow-xl hover:shadow-2xl active:scale-95"
                         >
-                            (Simular Escaneo)
+                            ⚽ Simular Escaneo
                         </button>
                     </div>
                 </div>
             </div>
+
+            <style>{`
+                @keyframes scan {
+                    0% { top: 0; }
+                    100% { top: 100%; }
+                }
+                .animate-scan {
+                    animation: scan 2s ease-in-out infinite;
+                }
+            `}</style>
         </div>
     );
 }

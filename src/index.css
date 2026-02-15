@@ -1,8 +1,24 @@
 @import "tailwindcss";
 
 @theme {
-    --color-cyan-pulse: #00D1B2;
-    --color-midnight-grid: #001F3F;
-    --color-pure-signal: #FFFFFF;
-    --color-carbon-core: #2E2E2E;
+    --color-wc-red: #E63946;
+    --color-wc-dark-bg: #1A1A1A;
+    --color-wc-light-bg: #F3F4F6;
+    --color-wc-gold: #FFD700;
+    --color-wc-green: #008751; /* Darker green */
+    --color-wc-green-light: #00D1B2; /* Cyan/Teal accent */
+    --color-wc-neon-green: #39FF14;
+    
+    --font-heading: 'Inter', sans-serif;
+}
+
+/* Custom Utilities */
+@layer utilities {
+    .glass-panel {
+        @apply bg-white/10 backdrop-blur-md border border-white/20;
+    }
+    
+    .card-shadow {
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
 }

@@ -8,4 +8,13 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  resolve: {
+    alias: {
+      'three': 'three',
+      'three/addons/': 'three/examples/jsm/'
+    }
+  },
+  optimizeDeps: {
+    include: ['three']
+  }
 })
