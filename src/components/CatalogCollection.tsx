@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import type { Card } from '../types';
+import { CardFilterModal, type FilterOptions } from './CardFilterModal';
 
 interface CatalogCollectionProps {
     cards: Card[];
@@ -6,6 +8,25 @@ interface CatalogCollectionProps {
 }
 
 export function CatalogCollection({ cards, onBack }: CatalogCollectionProps) {
+    const [selectedCard, setSelectedCard] = useState<Card | null>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleCardClick = (card: Card) => {
+        setSelectedCard(card);
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setSelectedCard(null);
+    };
+
+    const handleApplyFilters = (filters: FilterOptions) => {
+        console.log('Filters applied:', filters);
+        // Here you would implement the actual filter logic
+        // For now, just logging the filters
+    };
+
     return (
         <div className="min-h-screen bg-midnight-grid text-pure-signal p-6 pb-24">
             <div className="max-w-4xl mx-auto">
@@ -33,14 +54,13 @@ export function CatalogCollection({ cards, onBack }: CatalogCollectionProps) {
                     <h1 className="text-4xl font-bold text-pure-signal">Álbum Mundial</h1>
                 </div>
 
+                {/* Uniform Grid Display */}
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
                     {cards.map((card) => (
                         <div
                             key={card.id}
-                            className={`relative rounded-xl overflow-hidden shadow-lg transition duration-300 ${card.isCollected
-                                ? 'bg-carbon-core border-2 border-cyan-pulse hover:border-cyan-pulse/80 hover:shadow-[0_0_15px_rgba(0,209,178,0.3)]'
-                                : 'bg-carbon-core/50 border border-pure-signal/10 opacity-60 grayscale hover:grayscale-0 hover:opacity-100'
-                                }`}
+                            onClick={() => handleCardClick(card)}
+                            className="relative rounded-xl overflow-hidden shadow-lg transition duration-300 cursor-pointer bg-carbon-core border-2 border-cyan-pulse/30 hover:border-cyan-pulse hover:shadow-[0_0_20px_rgba(0,209,178,0.4)] hover:scale-105 transform"
                         >
                             <div className="aspect-3/4 relative bg-midnight-grid/50">
                                 <img
@@ -48,14 +68,11 @@ export function CatalogCollection({ cards, onBack }: CatalogCollectionProps) {
                                     alt={card.name}
                                     className="w-full h-full object-cover"
                                 />
-                                <div
-                                    className={`absolute top-2 right-2 text-xs font-bold px-2 py-1 rounded-full ${card.isCollected ? 'bg-cyan-pulse text-midnight-grid' : 'bg-carbon-core text-gray-400'
-                                        }`}
-                                >
+                                <div className="absolute top-2 right-2 text-xs font-bold px-2 py-1 rounded-full bg-cyan-pulse text-midnight-grid">
                                     #{card.id}
                                 </div>
                                 {card.isCollected && (
-                                    <div className="absolute bottom-2 right-2 bg-cyan-pulse text-midnight-grid p-1 rounded-full">
+                                    <div className="absolute top-2 left-2 bg-cyan-pulse text-midnight-grid p-1 rounded-full">
                                         {/* Check Icon */}
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -71,22 +88,32 @@ export function CatalogCollection({ cards, onBack }: CatalogCollectionProps) {
                                         </svg>
                                     </div>
                                 )}
-                            </div>
-                            <div className="p-4">
-                                <h3 className="font-bold text-lg truncate text-pure-signal">{card.name}</h3>
-                                <p className="text-sm text-pure-signal/60 line-clamp-2 mt-1">
-                                    {card.description}
-                                </p>
-                                {!card.isCollected && (
-                                    <div className="mt-2 text-xs text-center text-pure-signal/40 uppercase font-semibold tracking-wider">
-                                        Bloqueado
+                                {card.rarity === 'legendary' && (
+                                    <div className="absolute top-2 left-2 bg-yellow-400 text-midnight-grid px-2 py-1 rounded-full text-[10px] font-bold">
+                                        ⭐ LEGENDARIA
                                     </div>
                                 )}
+                            </div>
+                            <div className="p-4 bg-linear-to-t from-carbon-core to-transparent">
+                                <h3 className="font-bold text-lg truncate text-pure-signal">{card.name}</h3>
+                                <p className="text-sm text-cyan-pulse/80 mt-1">
+                                    {card.position} • {card.country}
+                                </p>
                             </div>
                         </div>
                     ))}
                 </div>
             </div>
+
+            {/* Filter Modal */}
+            {selectedCard && (
+                <CardFilterModal
+                    card={selectedCard}
+                    isOpen={isModalOpen}
+                    onClose={handleCloseModal}
+                    onApplyFilters={handleApplyFilters}
+                />
+            )}
         </div>
     );
 }

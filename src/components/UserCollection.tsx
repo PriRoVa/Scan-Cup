@@ -1,33 +1,48 @@
 import { useState } from 'react';
 import type { Card } from '../types';
+import { CardStats } from './CardStats';
+import { CardFilterModal, type FilterOptions } from './CardFilterModal';
 
 interface UserCollectionProps {
     cards: Card[];
 }
 
 export function UserCollection({ cards }: UserCollectionProps) {
-    const [activeFilter, setActiveFilter] = useState('Todas');
+    const [selectedCard, setSelectedCard] = useState<Card | null>(null);
+    const [showStats, setShowStats] = useState(false);
+    const [showFilterModal, setShowFilterModal] = useState(false);
 
     // Calculate stats
-    const totalCards = cards.length; // In a real app this would be the database total
+    const totalCards = cards.length;
     const collectedCount = cards.filter(c => c.isCollected).length;
     const progressPercentage = Math.round((collectedCount / totalCards) * 100);
 
-    // Filter logic
-    const countries = Array.from(new Set(cards.map(c => c.country).filter(Boolean)));
-    const filters = ['Todas', ...countries];
+    const handleCardClick = (card: Card) => {
+        if (card.isCollected) {
+            setSelectedCard(card);
+            setShowStats(true);
+        }
+    };
 
-    const filteredCards = activeFilter === 'Todas'
-        ? cards
-        : cards.filter(c => c.country === activeFilter);
+    const handleCloseStats = () => {
+        setShowStats(false);
+        setSelectedCard(null);
+    };
 
-    // Group by country if "Todas" is selected, otherwise just show list
-    const groupedCards = activeFilter === 'Todas'
-        ? countries.reduce((acc, country) => {
-            acc[country as string] = cards.filter(c => c.country === country);
-            return acc;
-        }, {} as Record<string, Card[]>)
-        : { [activeFilter]: filteredCards };
+    const handleAddFilters = () => {
+        setShowStats(false);
+        setShowFilterModal(true);
+    };
+
+    const handleCloseFilterModal = () => {
+        setShowFilterModal(false);
+        setSelectedCard(null);
+    };
+
+    const handleApplyFilters = (filters: FilterOptions) => {
+        console.log('Filters applied to card:', selectedCard?.name, filters);
+        // Here you would implement the actual filter logic
+    };
 
     return (
         <div className="min-h-screen bg-wc-light-bg pb-24 px-6 pt-10">
@@ -55,83 +70,75 @@ export function UserCollection({ cards }: UserCollectionProps) {
                 </div>
             </div>
 
-            {/* Filters */}
-            <div className="flex space-x-3 overflow-x-auto pb-4 mb-6 scrollbar-hide">
-                {filters.map(filter => (
-                    <button
-                        key={filter}
-                        onClick={() => setActiveFilter(filter as string)}
-                        className={`px-6 py-2.5 rounded-full text-sm font-bold whitespace-nowrap transition-colors ${activeFilter === filter
-                            ? 'bg-black text-white'
-                            : 'bg-white text-gray-600 border border-gray-200'
-                            }`}
+            {/* Simple 4-Column Grid - No Grouping */}
+            <div className="grid grid-cols-4 gap-4">
+                {cards.map(card => (
+                    <div
+                        key={card.id}
+                        className="relative group"
+                        onClick={() => handleCardClick(card)}
                     >
-                        {filter}
-                    </button>
-                ))}
-            </div>
+                        {card.isCollected ? (
+                            // Collected Card - Clickable
+                            <div className={`relative aspect-3/4 rounded-xl overflow-hidden shadow-md border-2 transition-transform hover:scale-105 cursor-pointer ${card.rarity === 'legendary' ? 'border-yellow-400' : 'border-transparent'}`}>
+                                <img src={card.imageUrl} alt={card.name} className="w-full h-full object-cover" />
 
-            {/* Card Sections */}
-            <div className="space-y-8">
-                {Object.entries(groupedCards).map(([country, countryCards]) => (
-                    <div key={country} className="bg-white rounded-2xl p-4 shadow-sm">
-                        {/* Section Header */}
-                        <div className="flex justify-between items-center mb-4 bg-wc-red/10 p-3 rounded-xl border border-wc-red/10">
-                            <div className="flex items-center space-x-3">
-                                {/* Flag Placeholder - simplified */}
-                                <div className="w-8 h-8 bg-wc-red rounded-full flex items-center justify-center text-white font-bold text-xs ring-2 ring-white shadow-sm">
-                                    {country.substring(0, 2).toUpperCase()}
+                                {/* Rarity Badge */}
+                                <div className="absolute top-2 left-2">
+                                    {card.rarity === 'legendary' && (
+                                        <span className="bg-yellow-400 text-[10px] font-bold px-2 py-1 rounded text-black shadow-lg">⭐ LEYENDA</span>
+                                    )}
                                 </div>
-                                <div>
-                                    <h3 className="text-wc-red font-extrabold text-sm uppercase tracking-wide">{country}</h3>
-                                    <div className="text-[10px] text-gray-500 font-bold">
-                                        {countryCards.filter(c => c.isCollected).length}/{countryCards.length} OBTENIDAS
+
+                                {/* Card Info */}
+                                <div className="absolute bottom-0 inset-x-0 bg-linear-to-t from-black via-black/80 to-transparent p-3 pt-8">
+                                    <div className="text-white text-sm font-bold truncate leading-tight">{card.name}</div>
+                                    <div className="text-gray-300 text-xs mt-1">{card.position} • {card.country}</div>
+                                </div>
+
+                                {/* Hover Indicator */}
+                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+                                    <div className="bg-white/90 rounded-full p-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                        </svg>
                                     </div>
                                 </div>
                             </div>
-                            <button className="bg-wc-red text-white text-[10px] font-bold px-3 py-1.5 rounded-lg shadow-sm hover:bg-red-600 transition">
-                                VER ÁLBUM
-                            </button>
-                        </div>
-
-                        {/* Grid */}
-                        <div className="grid grid-cols-3 gap-4">
-                            {countryCards.map(card => (
-                                <div key={card.id} className="relative group">
-                                    {card.isCollected ? (
-                                        // Collected Card
-                                        <div className={`relative aspect-3/4 rounded-xl overflow-hidden shadow-md border-2 ${card.rarity === 'legendary' ? 'border-yellow-400' : 'border-transparent'}`}>
-                                            <img src={card.imageUrl} alt={card.name} className="w-full h-full object-cover" />
-
-                                            {/* Rarity & Rating Overlay */}
-                                            <div className="absolute top-1 left-1 right-1 flex justify-between">
-                                                {card.rarity === 'legendary' && (
-                                                    <span className="bg-yellow-400 text-[8px] font-bold px-1 rounded text-black shadow-sm">LEYENDA</span>
-                                                )}
-                                            </div>
-
-                                            <div className="absolute bottom-0 inset-x-0 bg-linear-to-t from-black via-black/70 to-transparent p-2 pt-6">
-                                                <div className="text-white text-[10px] font-bold truncate leading-tight">{card.name}</div>
-                                                <div className="text-gray-300 text-[8px]">{card.position} • 94 GRL</div>
-                                            </div>
-                                        </div>
-                                    ) : (
-                                        // Missing / Locked Card
-                                        <div className="aspect-3/4 bg-red-50 rounded-xl border-2 border-dashed border-red-200 flex flex-col items-center justify-center p-2 text-center opacity-70">
-                                            <div className="w-8 h-8 rounded-full bg-red-100 text-wc-red flex items-center justify-center mb-1">
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                                                </svg>
-                                            </div>
-                                            <div className="text-wc-red font-bold text-[10px] uppercase">FALTA</div>
-                                        </div>
-                                    )}
+                        ) : (
+                            // Missing / Locked Card - Not Clickable
+                            <div className="aspect-3/4 bg-red-50 rounded-xl border-2 border-dashed border-red-200 flex flex-col items-center justify-center p-4 text-center opacity-70 hover:opacity-90 transition-opacity">
+                                <div className="w-12 h-12 rounded-full bg-red-100 text-wc-red flex items-center justify-center mb-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                                    </svg>
                                 </div>
-                            ))}
-                        </div>
+                                <div className="text-wc-red font-bold text-xs uppercase">Falta</div>
+                            </div>
+                        )}
                     </div>
                 ))}
             </div>
+
+            {/* Card Stats Modal */}
+            {selectedCard && showStats && (
+                <CardStats
+                    card={selectedCard}
+                    onClose={handleCloseStats}
+                    onAddFilters={handleAddFilters}
+                />
+            )}
+
+            {/* Card Filter Modal */}
+            {selectedCard && showFilterModal && (
+                <CardFilterModal
+                    card={selectedCard}
+                    isOpen={showFilterModal}
+                    onClose={handleCloseFilterModal}
+                    onApplyFilters={handleApplyFilters}
+                />
+            )}
         </div>
     );
 }
