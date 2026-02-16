@@ -21,7 +21,6 @@ export function ScanResult({ card, onAdd, onDiscard }: ScanResultProps) {
             <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center p-0 sm:p-4 bg-black/80 backdrop-blur-sm">
                 <div className={`w-full max-w-md bg-wc-light-bg rounded-t-[40px] sm:rounded-[40px] overflow-hidden shadow-2xl transform transition-transform duration-500 ease-out ${animate ? 'translate-y-0' : 'translate-y-full'}`}>
 
-                    {/* Header Actions */}
                     <div className="flex justify-between items-center p-6 pb-2">
                         <button onClick={onDiscard} className="p-2 rounded-full hover:bg-gray-100">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -30,7 +29,7 @@ export function ScanResult({ card, onAdd, onDiscard }: ScanResultProps) {
                         </button>
                         <div className="text-[10px] font-bold text-wc-red uppercase tracking-widest bg-wc-red/10 px-3 py-1 rounded-full">
                             Auto Increíble • Edición Legendaria
-                        </div>
+                        </div>|
                         <button className="p-2 rounded-full hover:bg-gray-100">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -41,9 +40,7 @@ export function ScanResult({ card, onAdd, onDiscard }: ScanResultProps) {
                     <div className="px-6 pb-8 text-center">
                         <h2 className="text-3xl font-bold text-gray-900">Carta Escaneada</h2>
 
-                        {/* Card Reveal */}
                         <div className="mt-10 mb-10 relative flex justify-center">
-                            {/* Glow Effect */}
                             <div className="absolute inset-0 bg-wc-red/20 blur-3xl rounded-full scale-150 animate-pulse"></div>
 
                             <div className="relative z-10 w-72 aspect-3/4 rounded-2xl overflow-hidden shadow-2xl transform rotate-1 hover:rotate-0 transition duration-500 bg-white p-2 border border-gray-100">
@@ -58,7 +55,6 @@ export function ScanResult({ card, onAdd, onDiscard }: ScanResultProps) {
                             </div>
                         </div>
 
-                        {/* Stats */}
                         <div className="flex justify-center space-x-8 mb-10">
                             <div className="text-center">
                                 <div className="text-sm font-bold text-gray-400 mb-2">RITMO</div>
@@ -83,7 +79,6 @@ export function ScanResult({ card, onAdd, onDiscard }: ScanResultProps) {
                             </div>
                         </div>
 
-                        {/* Actions */}
                         <div className="grid grid-cols-2 gap-4 mb-4">
                             <button
                                 onClick={onAdd}
@@ -108,7 +103,6 @@ export function ScanResult({ card, onAdd, onDiscard }: ScanResultProps) {
                 </div>
             </div>
 
-            {/* Card Stats Modal */}
             {showStats && (
                 <CardStats
                     card={card}

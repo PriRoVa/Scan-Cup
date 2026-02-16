@@ -9,7 +9,6 @@ export function UserProfile({ user, onBack }: UserProfileProps) {
     const levelProgress = ((user.level % 10) / 10) * 100;
     const collectedCards = user.collectionCount || 0;
 
-    // Achievement thresholds based on 48 total cards
     const achievements = [
         {
             icon: '🏆',
@@ -40,7 +39,6 @@ export function UserProfile({ user, onBack }: UserProfileProps) {
     return (
         <div className="min-h-screen bg-wc-light-bg p-6 pb-24">
             <div className="w-full max-w-md mx-auto">
-                {/* Header */}
                 <div className="flex items-center mb-8">
                     <button
                         onClick={onBack}
@@ -64,9 +62,7 @@ export function UserProfile({ user, onBack }: UserProfileProps) {
                     <h1 className="text-3xl font-bold text-gray-900">Mi Perfil</h1>
                 </div>
 
-                {/* Profile Card */}
                 <div className="bg-white rounded-2xl p-8 shadow-lg mb-4">
-                    {/* Avatar and Basic Info */}
                     <div className="flex items-center gap-5 mb-8">
                         <div className="relative">
                             <div className="w-24 h-24 rounded-xl overflow-hidden border-4 border-wc-red shadow-md">
@@ -85,7 +81,6 @@ export function UserProfile({ user, onBack }: UserProfileProps) {
                             <h2 className="text-2xl font-bold text-gray-900">{user.name}</h2>
                             <p className="text-gray-500 text-base">{user.email}</p>
 
-                            {/* Rank Badge */}
                             {user.rank && (
                                 <div className="inline-flex items-center gap-1 bg-wc-gold/20 border border-wc-gold px-3 py-1.5 rounded-full mt-2">
                                     <span className="text-wc-gold text-sm">⭐</span>
@@ -95,7 +90,6 @@ export function UserProfile({ user, onBack }: UserProfileProps) {
                         </div>
                     </div>
 
-                    {/* Level Progress */}
                     <div className="mb-8">
                         <div className="flex justify-between text-sm font-bold text-gray-500 mb-3">
                             <span>Progreso al Nivel {user.level + 1}</span>
@@ -109,7 +103,6 @@ export function UserProfile({ user, onBack }: UserProfileProps) {
                         </div>
                     </div>
 
-                    {/* Stats Grid */}
                     <div className="grid grid-cols-3 gap-4 mb-8">
                         <div className="bg-wc-red/10 p-4 rounded-xl text-center border border-wc-red/20">
                             <div className="text-sm text-gray-600 mb-2">Puntos</div>
@@ -127,7 +120,6 @@ export function UserProfile({ user, onBack }: UserProfileProps) {
                         </div>
                     </div>
 
-                    {/* Achievements */}
                     <div className="mb-8">
                         <h3 className="text-base font-bold text-gray-700 mb-4 flex items-center gap-2">
                             <span>🏅</span>
@@ -138,27 +130,27 @@ export function UserProfile({ user, onBack }: UserProfileProps) {
                                 <div
                                     key={index}
                                     className={`p-4 rounded-lg border transition-all ${achievement.unlocked
-                                            ? achievement.label === 'Coleccionista'
-                                                ? 'bg-wc-gold/20 border-wc-gold/40'
-                                                : achievement.label === 'Explorador'
-                                                    ? 'bg-wc-green/20 border-wc-green/40'
-                                                    : achievement.label === 'Maestro'
-                                                        ? 'bg-wc-red/20 border-wc-red/40'
-                                                        : 'bg-purple-500/20 border-purple-500/40'
-                                            : 'bg-gray-100 border-gray-200 opacity-50'
+                                        ? achievement.label === 'Coleccionista'
+                                            ? 'bg-wc-gold/20 border-wc-gold/40'
+                                            : achievement.label === 'Explorador'
+                                                ? 'bg-wc-green/20 border-wc-green/40'
+                                                : achievement.label === 'Maestro'
+                                                    ? 'bg-wc-red/20 border-wc-red/40'
+                                                    : 'bg-purple-500/20 border-purple-500/40'
+                                        : 'bg-gray-100 border-gray-200 opacity-50'
                                         }`}
                                     title={achievement.unlocked ? '¡Desbloqueado!' : `Requiere: ${achievement.requirement}`}
                                 >
                                     <div className="text-3xl text-center mb-2">{achievement.icon}</div>
                                     <p className={`text-[10px] text-center font-bold ${achievement.unlocked
-                                            ? achievement.label === 'Coleccionista'
-                                                ? 'text-wc-gold'
-                                                : achievement.label === 'Explorador'
-                                                    ? 'text-wc-green'
-                                                    : achievement.label === 'Maestro'
-                                                        ? 'text-wc-red'
-                                                        : 'text-purple-600'
-                                            : 'text-gray-400'
+                                        ? achievement.label === 'Coleccionista'
+                                            ? 'text-wc-gold'
+                                            : achievement.label === 'Explorador'
+                                                ? 'text-wc-green'
+                                                : achievement.label === 'Maestro'
+                                                    ? 'text-wc-red'
+                                                    : 'text-purple-600'
+                                        : 'text-gray-400'
                                         }`}>
                                         {achievement.label}
                                     </p>
@@ -167,7 +159,6 @@ export function UserProfile({ user, onBack }: UserProfileProps) {
                         </div>
                     </div>
 
-                    {/* Action Buttons */}
                     <div className="grid grid-cols-2 gap-4">
                         <button className="py-4 bg-wc-green text-white rounded-xl font-bold text-base hover:bg-green-700 transition shadow-md">
                             Editar Perfil

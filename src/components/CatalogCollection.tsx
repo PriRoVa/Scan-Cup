@@ -23,8 +23,6 @@ export function CatalogCollection({ cards, onBack }: CatalogCollectionProps) {
 
     const handleApplyFilters = (filters: FilterOptions) => {
         console.log('Filters applied:', filters);
-        // Here you would implement the actual filter logic
-        // For now, just logging the filters
     };
 
     return (
@@ -35,7 +33,6 @@ export function CatalogCollection({ cards, onBack }: CatalogCollectionProps) {
                         onClick={onBack}
                         className="mr-4 p-3 rounded-full hover:bg-carbon-core/50 transition border border-cyan-pulse/20"
                     >
-                        {/* Back Icon */}
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="h-7 w-7 text-cyan-pulse"
@@ -54,7 +51,6 @@ export function CatalogCollection({ cards, onBack }: CatalogCollectionProps) {
                     <h1 className="text-4xl font-bold text-pure-signal">Álbum Mundial</h1>
                 </div>
 
-                {/* Uniform Grid Display */}
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
                     {cards.map((card) => (
                         <div
@@ -73,7 +69,6 @@ export function CatalogCollection({ cards, onBack }: CatalogCollectionProps) {
                                 </div>
                                 {card.isCollected && (
                                     <div className="absolute top-2 left-2 bg-cyan-pulse text-midnight-grid p-1 rounded-full">
-                                        {/* Check Icon */}
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             className="h-4 w-4"
@@ -105,7 +100,6 @@ export function CatalogCollection({ cards, onBack }: CatalogCollectionProps) {
                 </div>
             </div>
 
-            {/* Filter Modal */}
             {selectedCard && (
                 <CardFilterModal
                     card={selectedCard}

@@ -46,7 +46,6 @@ export function UserCollection({ cards }: UserCollectionProps) {
 
     return (
         <div className="min-h-screen bg-wc-light-bg pb-24 px-6 pt-10">
-            {/* Header */}
             <div className="flex justify-between items-center mb-8">
                 <h1 className="text-3xl font-bold text-gray-900">Mi Colección</h1>
                 <button className="p-3 bg-white rounded-full shadow-sm text-gray-600">
@@ -56,7 +55,6 @@ export function UserCollection({ cards }: UserCollectionProps) {
                 </button>
             </div>
 
-            {/* Progress Bar */}
             <div className="mb-10">
                 <div className="flex justify-between text-sm font-bold text-gray-500 mb-3">
                     <span>PROGRESO TOTAL</span>
@@ -70,7 +68,6 @@ export function UserCollection({ cards }: UserCollectionProps) {
                 </div>
             </div>
 
-            {/* Simple 4-Column Grid - No Grouping */}
             <div className="grid grid-cols-4 gap-4">
                 {cards.map(card => (
                     <div
@@ -79,24 +76,19 @@ export function UserCollection({ cards }: UserCollectionProps) {
                         onClick={() => handleCardClick(card)}
                     >
                         {card.isCollected ? (
-                            // Collected Card - Clickable
                             <div className={`relative aspect-3/4 rounded-xl overflow-hidden shadow-md border-2 transition-transform hover:scale-105 cursor-pointer ${card.rarity === 'legendary' ? 'border-yellow-400' : 'border-transparent'}`}>
                                 <img src={card.imageUrl} alt={card.name} className="w-full h-full object-cover" />
 
-                                {/* Rarity Badge */}
                                 <div className="absolute top-2 left-2">
                                     {card.rarity === 'legendary' && (
                                         <span className="bg-yellow-400 text-[10px] font-bold px-2 py-1 rounded text-black shadow-lg">⭐ LEYENDA</span>
                                     )}
                                 </div>
 
-                                {/* Card Info */}
                                 <div className="absolute bottom-0 inset-x-0 bg-linear-to-t from-black via-black/80 to-transparent p-3 pt-8">
                                     <div className="text-white text-sm font-bold truncate leading-tight">{card.name}</div>
                                     <div className="text-gray-300 text-xs mt-1">{card.position} • {card.country}</div>
                                 </div>
-
-                                {/* Hover Indicator */}
                                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
                                     <div className="bg-white/90 rounded-full p-3">
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-900" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -107,7 +99,6 @@ export function UserCollection({ cards }: UserCollectionProps) {
                                 </div>
                             </div>
                         ) : (
-                            // Missing / Locked Card - Not Clickable
                             <div className="aspect-3/4 bg-red-50 rounded-xl border-2 border-dashed border-red-200 flex flex-col items-center justify-center p-4 text-center opacity-70 hover:opacity-90 transition-opacity">
                                 <div className="w-12 h-12 rounded-full bg-red-100 text-wc-red flex items-center justify-center mb-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -121,7 +112,6 @@ export function UserCollection({ cards }: UserCollectionProps) {
                 ))}
             </div>
 
-            {/* Card Stats Modal */}
             {selectedCard && showStats && (
                 <CardStats
                     card={selectedCard}
@@ -130,7 +120,6 @@ export function UserCollection({ cards }: UserCollectionProps) {
                 />
             )}
 
-            {/* Card Filter Modal */}
             {selectedCard && showFilterModal && (
                 <CardFilterModal
                     card={selectedCard}

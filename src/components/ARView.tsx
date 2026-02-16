@@ -19,26 +19,19 @@ export function ARView({ onScan, onBack }: ARViewProps) {
 
     return (
         <div className="relative w-full h-screen bg-black overflow-hidden">
-            {/* Soccer Field Background */}
             <div className="w-full h-full absolute top-0 left-0 z-0 bg-linear-to-br from-green-800 via-green-700 to-green-900">
-                {/* Grass Texture Overlay */}
                 <div className="absolute inset-0 bg-linear-to-b from-green-600/20 via-transparent to-green-900/40"></div>
-
-                {/* Field Lines Pattern */}
                 <div className="absolute inset-0 opacity-20">
-                    {/* Horizontal lines */}
                     <div className="absolute top-1/4 left-0 right-0 h-0.5 bg-white"></div>
                     <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-white"></div>
                     <div className="absolute top-3/4 left-0 right-0 h-0.5 bg-white"></div>
-                    {/* Vertical lines */}
                     <div className="absolute top-0 bottom-0 left-1/4 w-0.5 bg-white"></div>
                     <div className="absolute top-0 bottom-0 left-1/2 w-0.5 bg-white"></div>
                     <div className="absolute top-0 bottom-0 left-3/4 w-0.5 bg-white"></div>
-                    {/* Center circle */}
+
                     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 border-2 border-white rounded-full"></div>
                 </div>
 
-                {/* Scanning Frame - Card Shape */}
                 {started && (
                     <div className="absolute inset-0 flex items-center justify-center">
                         <div className="relative w-64 h-80 border-4 border-white rounded-2xl shadow-[0_0_40px_rgba(255,255,255,0.5)] bg-green-900/30 backdrop-blur-sm">
@@ -64,10 +57,9 @@ export function ARView({ onScan, onBack }: ARViewProps) {
 
             </div>
 
-            {/* UI Overlay */}
             <div className="absolute top-0 left-0 w-full h-full z-10 pointer-events-none flex flex-col justify-between p-6">
 
-                {/* Header */}
+
                 <div className="flex justify-between items-start pointer-events-auto">
                     <button
                         onClick={onBack}
@@ -84,7 +76,6 @@ export function ARView({ onScan, onBack }: ARViewProps) {
                     )}
                 </div>
 
-                {/* Camera Button - Football Style - Centered */}
                 <div className="flex justify-center items-end pointer-events-auto pb-8">
                     <button
                         onClick={() => onScan("MES-10")}

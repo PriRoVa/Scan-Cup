@@ -10,7 +10,6 @@ interface HomeProps {
 export function Home({ user, onScanClick, onViewCollection }: HomeProps) {
     return (
         <div className="min-h-screen bg-wc-light-bg pb-20">
-            {/* Header Section */}
             <div className="bg-wc-red rounded-b-[40px] pt-16 pb-20 px-6 relative shadow-xl z-0">
                 <div className="flex justify-between items-center mb-8">
                     <div className="flex items-center space-x-2">
@@ -19,21 +18,13 @@ export function Home({ user, onScanClick, onViewCollection }: HomeProps) {
                         </div>
                         <span className="text-white/80 text-sm font-medium">APP OFICIAL</span>
                     </div>
-                    <div className="relative">
-                        <button className="text-white p-2 rounded-full hover:bg-white/10">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                            </svg>
-                        </button>
-                        <div className="absolute top-2 right-2 w-2.5 h-2.5 bg-yellow-400 rounded-full"></div>
-                    </div>
+
                 </div>
 
                 <h1 className="text-4xl font-bold text-white leading-tight mb-2">
                     Arma tu<br />Equipo Soñado.
                 </h1>
 
-                {/* Scan Button - Floating */}
                 <div className="absolute -bottom-14 left-1/2 transform -translate-x-1/2 z-10">
                     <button
                         onClick={onScanClick}
@@ -47,29 +38,19 @@ export function Home({ user, onScanClick, onViewCollection }: HomeProps) {
                 </div>
             </div>
 
-            {/* Stats / Activity Section */}
             <div className="px-6 mt-20 mb-8">
                 <div className="text-sm text-gray-400 uppercase font-bold tracking-wider mb-4">Actividad Reciente</div>
                 <div className="bg-wc-dark-bg text-white rounded-2xl p-6 shadow-lg flex justify-between items-center relative overflow-hidden">
-                    {/* Decorative background blur */}
                     <div className="absolute -top-10 -right-10 w-32 h-32 bg-purple-600 rounded-full blur-3xl opacity-20"></div>
 
-                    <div className="flex-1">
-                        <div className="text-gray-400 text-sm font-medium mb-2">COLECCIÓN</div>
-                        <div className="text-4xl font-bold flex items-baseline">
-                            {user.collectionCount} <span className="text-base font-normal text-wc-red ml-2">Cartas</span>
+                    <div className="flex-1 flex flex-col items-center justify-center z-10">
+                        <div className="text-gray-400 text-sm font-medium mb-2 uppercase tracking-widest">Cartas Coleccionadas</div>
+                        <div className="text-5xl font-black text-white flex items-baseline drop-shadow-lg">
+                            {user.collectionCount}
                         </div>
-                        <div className="w-16 h-1.5 bg-gray-700 rounded-full mt-3">
-                            <div className="h-full bg-wc-red rounded-full" style={{ width: '13%' }}></div>
+                        <div className="w-full max-w-[200px] h-2 bg-gray-700/50 rounded-full mt-4 overflow-hidden">
+                            <div className="h-full bg-linear-to-r from-wc-green to-emerald-400 rounded-full shadow-[0_0_10px_rgba(16,185,129,0.5)]" style={{ width: '13%' }}></div>
                         </div>
-                    </div>
-
-                    <div className="h-14 w-px bg-gray-700"></div>
-
-                    <div className="text-right flex-1">
-                        <div className="text-gray-400 text-sm font-medium mb-2">RANGO</div>
-                        <div className="text-4xl font-bold text-yellow-500">#{user.rank} <span className="text-xl">🏆</span></div>
-                        <div className="text-sm text-wc-red font-bold mt-2">▼ TOP 5%</div>
                     </div>
                 </div>
             </div>

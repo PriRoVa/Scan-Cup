@@ -12,12 +12,10 @@ import { ScanResult } from './components/ScanResult'
 function App() {
   const [view, setView] = useState<'home' | 'scan' | 'user-collection' | 'catalog' | 'profile' | 'trivia' | 'market' | 'scan-result'>('home');
 
-  // Helper to handle navigation from BottomNav
   const handleNavChange = (newView: typeof view) => {
     setView(newView);
   };
 
-  // Render content based on current view
   const renderContent = () => {
     switch (view) {
       case 'home':
@@ -35,10 +33,8 @@ function App() {
       case 'profile':
         return <UserProfile user={mockUser} onBack={() => setView('home')} />;
       case 'scan':
-        // Show AR View for scan, which can trigger scan result manually for demo
         return <ARView onScan={() => setView('scan-result')} onBack={() => setView('home')} />;
       case 'scan-result':
-        // Static Scan Result UI
         return <ScanResult card={mockCards[0]} onAdd={() => setView('user-collection')} onDiscard={() => setView('home')} />;
       case 'trivia':
         return <Trivia />;
@@ -53,7 +49,6 @@ function App() {
     <div className="font-heading bg-wc-light-bg min-h-screen">
       {renderContent()}
 
-      {/* Show Bottom Nav on main screens */}
       {view !== 'scan' && view !== 'scan-result' && (
         <BottomNav currentView={view} onChangeView={handleNavChange} />
       )}

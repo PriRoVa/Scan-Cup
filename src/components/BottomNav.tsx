@@ -8,7 +8,7 @@ interface BottomNavProps {
 export function BottomNav({ currentView, onChangeView }: BottomNavProps) {
     const navItems = [
         {
-            id: 'user-collection', // Mapping to 'Collection' in UI
+            id: 'user-collection',
             label: 'Collection',
             icon: (active: boolean) => (
                 <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${active ? 'fill-current' : 'stroke-current fill-none'}`} viewBox="0 0 24 24" strokeWidth={2}>

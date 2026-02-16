@@ -1,4 +1,5 @@
 import type { Card, User } from '../types';
+import MessiImg from '../assets/Images/Messi.png';
 
 export const mockUser: User = {
     id: "8821",
@@ -16,7 +17,7 @@ const createCard = (id: string, name: string, country: string, position: string,
     id,
     name,
     description: `Jugador profesional de ${country}`,
-    imageUrl: `https://images.unsplash.com/photo-${1560933566 + Math.floor(Math.random() * 1000000)}?q=80&w=2670&auto=format&fit=crop`,
+    imageUrl: MessiImg, // Updated to use local Messi image
     isCollected,
     country,
     position,
@@ -30,7 +31,7 @@ export const mockCards: Card[] = [
         id: "MES-10",
         name: "Lionel Messi",
         description: "El capitán legendario, maestro del regate y la visión.",
-        imageUrl: "https://images.unsplash.com/photo-1621977717297-c60f49298d07?q=80&w=2670&auto=format&fit=crop",
+        imageUrl: MessiImg,
         isCollected: true,
         country: "Argentina",
         position: "DEL",
@@ -41,7 +42,7 @@ export const mockCards: Card[] = [
         id: "MBP-09",
         name: "Kylian Mbappé",
         description: "Velocidad explosiva y definición letal.",
-        imageUrl: "https://images.unsplash.com/photo-1560933566-f44697955c4d?q=80&w=2670&auto=format&fit=crop",
+        imageUrl: MessiImg,
         isCollected: true,
         country: "Francia",
         position: "EXT",
@@ -52,7 +53,7 @@ export const mockCards: Card[] = [
         id: "MOD-10",
         name: "Luka Modrić",
         description: "El motor del mediocampo, elegancia y precisión.",
-        imageUrl: "https://images.unsplash.com/photo-1511886929837-354d827aae26?q=80&w=2564&auto=format&fit=crop",
+        imageUrl: MessiImg,
         isCollected: true,
         country: "Croacia",
         position: "MC",

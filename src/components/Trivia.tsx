@@ -29,11 +29,9 @@ export function Trivia() {
 
     return (
         <div className="min-h-screen bg-[#022c22] text-white p-6 pb-24 relative overflow-hidden">
-            {/* Background Glows */}
             <div className="absolute top-1/4 left-0 w-64 h-64 bg-green-500 rounded-full blur-[100px] opacity-20 pointer-events-none"></div>
             <div className="absolute bottom-1/4 right-0 w-64 h-64 bg-wc-green-light rounded-full blur-[100px] opacity-10 pointer-events-none"></div>
 
-            {/* Header */}
             <div className="flex justify-between items-start mb-6 relative z-10">
                 <button className="bg-white/10 p-2 rounded-full hover:bg-white/20 transition backdrop-blur-sm">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -49,7 +47,6 @@ export function Trivia() {
                 </div>
             </div>
 
-            {/* Progress Bar */}
             <div className="mb-8 relative z-10">
                 <div className="flex justify-between text-xs font-bold text-gray-400 mb-2">
                     <span className="text-wc-red">Pregunta {question.number}/{question.total}</span>
@@ -60,9 +57,7 @@ export function Trivia() {
                 </div>
             </div>
 
-            {/* Content Container */}
             <div className="relative z-10">
-                {/* Card Display */}
                 <div className="flex justify-center mb-8 relative">
                     <div className="relative w-48 aspect-3/4 rounded-xl overflow-hidden shadow-2xl border-2 border-white/10 transform -rotate-2 hover:rotate-0 transition duration-500">
                         <img src={question.player.image} alt={question.player.name} className="w-full h-full object-cover" />
@@ -73,23 +68,19 @@ export function Trivia() {
                             <div className="text-[10px] text-gray-300">{question.player.position} • {question.player.team}</div>
                         </div>
 
-                        {/* Rank Badge */}
                         <div className="absolute top-2 right-2 bg-black/50 backdrop-blur-md p-1 rounded-full border border-white/20">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-yellow-400" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                             </svg>
                         </div>
                     </div>
-                    {/* Glow behind card */}
                     <div className="absolute inset-0 bg-wc-green-light blur-2xl opacity-20 -z-10"></div>
                 </div>
 
-                {/* Question Text */}
                 <h2 className="text-2xl font-bold text-center mb-8 leading-tight drop-shadow-lg">
                     ¿En qué club hizo su debut senior este <span className="text-wc-red">jugador en 2016</span>?
                 </h2>
 
-                {/* Options */}
                 <div className="space-y-3">
                     {question.options.map((option) => (
                         <button
