@@ -9,7 +9,6 @@ export function ARView({ onScan, onBack }: ARViewProps) {
     const [started, setStarted] = useState(false);
 
     useEffect(() => {
-        // Simulate camera initialization
         const timer = setTimeout(() => {
             setStarted(true);
         }, 1000);
@@ -40,11 +39,7 @@ export function ARView({ onScan, onBack }: ARViewProps) {
                             <div className="absolute -top-3 -right-3 w-10 h-10 border-t-4 border-r-4 border-yellow-400 rounded-tr-lg"></div>
                             <div className="absolute -bottom-3 -left-3 w-10 h-10 border-b-4 border-l-4 border-yellow-400 rounded-bl-lg"></div>
                             <div className="absolute -bottom-3 -right-3 w-10 h-10 border-b-4 border-r-4 border-yellow-400 rounded-br-lg"></div>
-
-                            {/* Scanning Line */}
                             <div className="absolute inset-x-0 top-0 h-1 bg-linear-to-r from-transparent via-yellow-400 to-transparent shadow-[0_0_20px_rgba(250,204,21,0.8)] animate-scan"></div>
-
-                            {/* Soccer Ball Icon in Center */}
                             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-30">
                                 <svg className="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z" />
