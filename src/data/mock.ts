@@ -8,7 +8,7 @@ export const mockUser: User = {
     level: 12,
     points: 4500,
     rank: 42,
-    collectionCount: 124
+    collectionCount: 13
 };
 
 export const mockCards: Card[] = [

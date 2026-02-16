@@ -7,17 +7,17 @@ interface CatalogCollectionProps {
 
 export function CatalogCollection({ cards, onBack }: CatalogCollectionProps) {
     return (
-        <div className="min-h-screen bg-midnight-grid text-pure-signal p-6">
+        <div className="min-h-screen bg-midnight-grid text-pure-signal p-6 pb-24">
             <div className="max-w-4xl mx-auto">
-                <div className="flex items-center mb-8">
+                <div className="flex items-center mb-10">
                     <button
                         onClick={onBack}
-                        className="mr-4 p-2 rounded-full hover:bg-carbon-core/50 transition border border-cyan-pulse/20"
+                        className="mr-4 p-3 rounded-full hover:bg-carbon-core/50 transition border border-cyan-pulse/20"
                     >
                         {/* Back Icon */}
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="h-6 w-6 text-cyan-pulse"
+                            className="h-7 w-7 text-cyan-pulse"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -30,10 +30,10 @@ export function CatalogCollection({ cards, onBack }: CatalogCollectionProps) {
                             />
                         </svg>
                     </button>
-                    <h1 className="text-3xl font-bold text-pure-signal">Álbum Mundial</h1>
+                    <h1 className="text-4xl font-bold text-pure-signal">Álbum Mundial</h1>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
                     {cards.map((card) => (
                         <div
                             key={card.id}
@@ -42,7 +42,7 @@ export function CatalogCollection({ cards, onBack }: CatalogCollectionProps) {
                                 : 'bg-carbon-core/50 border border-pure-signal/10 opacity-60 grayscale hover:grayscale-0 hover:opacity-100'
                                 }`}
                         >
-                            <div className="aspect-[3/4] relative bg-midnight-grid/50">
+                            <div className="aspect-3/4 relative bg-midnight-grid/50">
                                 <img
                                     src={card.imageUrl}
                                     alt={card.name}

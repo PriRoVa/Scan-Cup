@@ -30,24 +30,24 @@ export function UserCollection({ cards }: UserCollectionProps) {
         : { [activeFilter]: filteredCards };
 
     return (
-        <div className="min-h-screen bg-wc-light-bg pb-24 px-6 pt-8">
+        <div className="min-h-screen bg-wc-light-bg pb-24 px-6 pt-10">
             {/* Header */}
-            <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold text-gray-900">Mi Colección</h1>
-                <button className="p-2 bg-white rounded-full shadow-sm text-gray-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="flex justify-between items-center mb-8">
+                <h1 className="text-3xl font-bold text-gray-900">Mi Colección</h1>
+                <button className="p-3 bg-white rounded-full shadow-sm text-gray-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </button>
             </div>
 
             {/* Progress Bar */}
-            <div className="mb-8">
-                <div className="flex justify-between text-xs font-bold text-gray-500 mb-2">
+            <div className="mb-10">
+                <div className="flex justify-between text-sm font-bold text-gray-500 mb-3">
                     <span>PROGRESO TOTAL</span>
                     <span className="text-wc-green">{collectedCount}/{totalCards} ({progressPercentage}%)</span>
                 </div>
-                <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div className="h-3 bg-gray-200 rounded-full overflow-hidden">
                     <div
                         className="h-full bg-linear-to-r from-wc-green to-wc-green-light rounded-full transition-all duration-1000 ease-out"
                         style={{ width: `${progressPercentage}%` }}
@@ -56,12 +56,12 @@ export function UserCollection({ cards }: UserCollectionProps) {
             </div>
 
             {/* Filters */}
-            <div className="flex space-x-3 overflow-x-auto pb-4 mb-4 scrollbar-hide">
+            <div className="flex space-x-3 overflow-x-auto pb-4 mb-6 scrollbar-hide">
                 {filters.map(filter => (
                     <button
                         key={filter}
                         onClick={() => setActiveFilter(filter as string)}
-                        className={`px-5 py-2 rounded-full text-sm font-bold whitespace-nowrap transition-colors ${activeFilter === filter
+                        className={`px-6 py-2.5 rounded-full text-sm font-bold whitespace-nowrap transition-colors ${activeFilter === filter
                             ? 'bg-black text-white'
                             : 'bg-white text-gray-600 border border-gray-200'
                             }`}
@@ -95,7 +95,7 @@ export function UserCollection({ cards }: UserCollectionProps) {
                         </div>
 
                         {/* Grid */}
-                        <div className="grid grid-cols-3 gap-3">
+                        <div className="grid grid-cols-3 gap-4">
                             {countryCards.map(card => (
                                 <div key={card.id} className="relative group">
                                     {card.isCollected ? (

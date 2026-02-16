@@ -26,7 +26,6 @@ function App() {
             user={mockUser}
             onScanClick={() => setView('scan')}
             onViewCollection={() => setView('user-collection')}
-            trendingCards={mockCards}
           />
         );
       case 'user-collection':

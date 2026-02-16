@@ -6,26 +6,49 @@ interface UserProfileProps {
 }
 
 export function UserProfile({ user, onBack }: UserProfileProps) {
-    const levelProgress = ((user.level % 10) / 10) * 100; // Mock progress to next level
+    const levelProgress = ((user.level % 10) / 10) * 100;
+    const collectedCards = user.collectionCount || 0;
+
+    // Achievement thresholds based on 48 total cards
     const achievements = [
-        { icon: '🏆', label: 'Coleccionista', unlocked: true },
-        { icon: '⚡', label: 'Explorador', unlocked: true },
-        { icon: '🎯', label: 'Maestro', unlocked: false },
-        { icon: '👑', label: 'Leyenda', unlocked: false },
+        {
+            icon: '🏆',
+            label: 'Coleccionista',
+            unlocked: collectedCards >= 10,
+            requirement: '10+ cartas'
+        },
+        {
+            icon: '⚡',
+            label: 'Explorador',
+            unlocked: collectedCards >= 24,
+            requirement: '24+ cartas'
+        },
+        {
+            icon: '🎯',
+            label: 'Maestro',
+            unlocked: collectedCards >= 36,
+            requirement: '36+ cartas'
+        },
+        {
+            icon: '👑',
+            label: 'Leyenda',
+            unlocked: collectedCards >= 48,
+            requirement: '48 cartas'
+        },
     ];
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-wc-dark-bg via-gray-900 to-wc-dark-bg text-white p-4 pb-24">
-            <div className="w-full max-w-2xl mx-auto">
+        <div className="min-h-screen bg-wc-light-bg p-6 pb-24">
+            <div className="w-full max-w-md mx-auto">
                 {/* Header */}
-                <div className="flex items-center mb-6">
+                <div className="flex items-center mb-8">
                     <button
                         onClick={onBack}
-                        className="mr-4 p-2 rounded-full bg-white/5 hover:bg-white/10 transition-all duration-300 border border-wc-green-light/20 hover:border-wc-green-light/40"
+                        className="mr-4 p-3 rounded-full hover:bg-gray-100 transition"
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="h-6 w-6 text-wc-green-light"
+                            className="h-7 w-7 text-gray-700"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -38,132 +61,120 @@ export function UserProfile({ user, onBack }: UserProfileProps) {
                             />
                         </svg>
                     </button>
-                    <h1 className="text-3xl font-bold bg-gradient-to-r from-wc-green-light to-wc-green bg-clip-text text-transparent">
-                        Mi Perfil
-                    </h1>
+                    <h1 className="text-3xl font-bold text-gray-900">Mi Perfil</h1>
                 </div>
 
                 {/* Profile Card */}
-                <div className="bg-gradient-to-br from-gray-800/80 to-gray-900/80 backdrop-blur-sm rounded-3xl p-6 shadow-2xl border border-wc-green-light/20 relative overflow-hidden mb-6">
-                    {/* Animated gradient background */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-wc-green-light/5 via-transparent to-wc-green/5 animate-pulse"></div>
-
-                    {/* Top decorative line */}
-                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-wc-green-light to-transparent"></div>
-
-                    <div className="relative z-10">
-                        {/* Avatar and Basic Info */}
-                        <div className="flex items-start gap-6 mb-6">
-                            <div className="relative group">
-                                <div className="w-28 h-28 rounded-2xl overflow-hidden border-4 border-wc-green-light shadow-[0_0_30px_rgba(0,209,178,0.4)] group-hover:shadow-[0_0_40px_rgba(0,209,178,0.6)] transition-all duration-300">
-                                    <img
-                                        src={user.avatarUrl}
-                                        alt={user.name}
-                                        className="w-full h-full object-cover"
-                                    />
-                                </div>
-                                <div className="absolute -bottom-2 -right-2 bg-gradient-to-r from-wc-green to-wc-green-light text-white text-sm font-bold px-4 py-1.5 rounded-full shadow-lg">
-                                    Nvl {user.level}
-                                </div>
+                <div className="bg-white rounded-2xl p-8 shadow-lg mb-4">
+                    {/* Avatar and Basic Info */}
+                    <div className="flex items-center gap-5 mb-8">
+                        <div className="relative">
+                            <div className="w-24 h-24 rounded-xl overflow-hidden border-4 border-wc-red shadow-md">
+                                <img
+                                    src={user.avatarUrl}
+                                    alt={user.name}
+                                    className="w-full h-full object-cover"
+                                />
                             </div>
-
-                            <div className="flex-1 pt-2">
-                                <h2 className="text-2xl font-bold text-white mb-1">{user.name}</h2>
-                                <p className="text-gray-400 text-sm mb-3">{user.email}</p>
-
-                                {/* Rank Badge */}
-                                {user.rank && (
-                                    <div className="inline-flex items-center gap-2 bg-wc-gold/20 border border-wc-gold/40 px-3 py-1 rounded-full">
-                                        <svg className="w-4 h-4 text-wc-gold" fill="currentColor" viewBox="0 0 20 20">
-                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                        </svg>
-                                        <span className="text-wc-gold font-semibold text-sm">Rank #{user.rank}</span>
-                                    </div>
-                                )}
+                            <div className="absolute -bottom-2 -right-2 bg-wc-green text-white text-sm font-bold px-3 py-1.5 rounded-full shadow-md">
+                                Nvl {user.level}
                             </div>
                         </div>
 
-                        {/* Level Progress Bar */}
-                        <div className="mb-6">
-                            <div className="flex justify-between items-center mb-2">
-                                <span className="text-sm text-gray-400">Progreso al Nivel {user.level + 1}</span>
-                                <span className="text-sm font-semibold text-wc-green-light">{levelProgress.toFixed(0)}%</span>
-                            </div>
-                            <div className="w-full h-3 bg-gray-700/50 rounded-full overflow-hidden border border-gray-600/50">
+                        <div className="flex-1">
+                            <h2 className="text-2xl font-bold text-gray-900">{user.name}</h2>
+                            <p className="text-gray-500 text-base">{user.email}</p>
+
+                            {/* Rank Badge */}
+                            {user.rank && (
+                                <div className="inline-flex items-center gap-1 bg-wc-gold/20 border border-wc-gold px-3 py-1.5 rounded-full mt-2">
+                                    <span className="text-wc-gold text-sm">⭐</span>
+                                    <span className="text-wc-gold font-bold text-sm">Rank #{user.rank}</span>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Level Progress */}
+                    <div className="mb-8">
+                        <div className="flex justify-between text-sm font-bold text-gray-500 mb-3">
+                            <span>Progreso al Nivel {user.level + 1}</span>
+                            <span className="text-wc-green">{levelProgress.toFixed(0)}%</span>
+                        </div>
+                        <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+                            <div
+                                className="h-full bg-wc-green rounded-full transition-all duration-500"
+                                style={{ width: `${levelProgress}%` }}
+                            ></div>
+                        </div>
+                    </div>
+
+                    {/* Stats Grid */}
+                    <div className="grid grid-cols-3 gap-4 mb-8">
+                        <div className="bg-wc-red/10 p-4 rounded-xl text-center border border-wc-red/20">
+                            <div className="text-sm text-gray-600 mb-2">Puntos</div>
+                            <div className="text-2xl font-bold text-wc-red">{user.points.toLocaleString()}</div>
+                        </div>
+
+                        <div className="bg-wc-green/10 p-4 rounded-xl text-center border border-wc-green/20">
+                            <div className="text-sm text-gray-600 mb-2">Cartas</div>
+                            <div className="text-2xl font-bold text-wc-green">{user.collectionCount || 0}</div>
+                        </div>
+
+                        <div className="bg-gray-100 p-4 rounded-xl text-center border border-gray-200">
+                            <div className="text-sm text-gray-600 mb-2">ID</div>
+                            <div className="text-xl font-bold text-gray-700">#{user.id}</div>
+                        </div>
+                    </div>
+
+                    {/* Achievements */}
+                    <div className="mb-8">
+                        <h3 className="text-base font-bold text-gray-700 mb-4 flex items-center gap-2">
+                            <span>🏅</span>
+                            Logros
+                        </h3>
+                        <div className="grid grid-cols-4 gap-3">
+                            {achievements.map((achievement, index) => (
                                 <div
-                                    className="h-full bg-gradient-to-r from-wc-green to-wc-green-light rounded-full transition-all duration-500 shadow-[0_0_10px_rgba(0,209,178,0.5)]"
-                                    style={{ width: `${levelProgress}%` }}
-                                ></div>
-                            </div>
-                        </div>
-
-                        {/* Stats Grid */}
-                        <div className="grid grid-cols-3 gap-3 mb-6">
-                            <div className="bg-gradient-to-br from-wc-green-light/10 to-wc-green/10 p-4 rounded-xl border border-wc-green-light/20 hover:border-wc-green-light/40 transition-all duration-300 hover:scale-105">
-                                <div className="flex items-center justify-center mb-2">
-                                    <svg className="w-6 h-6 text-wc-green-light" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                    </svg>
+                                    key={index}
+                                    className={`p-4 rounded-lg border transition-all ${achievement.unlocked
+                                            ? achievement.label === 'Coleccionista'
+                                                ? 'bg-wc-gold/20 border-wc-gold/40'
+                                                : achievement.label === 'Explorador'
+                                                    ? 'bg-wc-green/20 border-wc-green/40'
+                                                    : achievement.label === 'Maestro'
+                                                        ? 'bg-wc-red/20 border-wc-red/40'
+                                                        : 'bg-purple-500/20 border-purple-500/40'
+                                            : 'bg-gray-100 border-gray-200 opacity-50'
+                                        }`}
+                                    title={achievement.unlocked ? '¡Desbloqueado!' : `Requiere: ${achievement.requirement}`}
+                                >
+                                    <div className="text-3xl text-center mb-2">{achievement.icon}</div>
+                                    <p className={`text-[10px] text-center font-bold ${achievement.unlocked
+                                            ? achievement.label === 'Coleccionista'
+                                                ? 'text-wc-gold'
+                                                : achievement.label === 'Explorador'
+                                                    ? 'text-wc-green'
+                                                    : achievement.label === 'Maestro'
+                                                        ? 'text-wc-red'
+                                                        : 'text-purple-600'
+                                            : 'text-gray-400'
+                                        }`}>
+                                        {achievement.label}
+                                    </p>
                                 </div>
-                                <p className="text-gray-400 text-xs mb-1">Puntos</p>
-                                <p className="text-2xl font-bold text-wc-green-light">{user.points.toLocaleString()}</p>
-                            </div>
-
-                            <div className="bg-gradient-to-br from-blue-500/10 to-blue-600/10 p-4 rounded-xl border border-blue-400/20 hover:border-blue-400/40 transition-all duration-300 hover:scale-105">
-                                <div className="flex items-center justify-center mb-2">
-                                    <svg className="w-6 h-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                                    </svg>
-                                </div>
-                                <p className="text-gray-400 text-xs mb-1">Cartas</p>
-                                <p className="text-2xl font-bold text-blue-400">{user.collectionCount || 0}</p>
-                            </div>
-
-                            <div className="bg-gradient-to-br from-purple-500/10 to-purple-600/10 p-4 rounded-xl border border-purple-400/20 hover:border-purple-400/40 transition-all duration-300 hover:scale-105">
-                                <div className="flex items-center justify-center mb-2">
-                                    <svg className="w-6 h-6 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-                                    </svg>
-                                </div>
-                                <p className="text-gray-400 text-xs mb-1">ID</p>
-                                <p className="text-xl font-bold text-purple-400">#{user.id}</p>
-                            </div>
+                            ))}
                         </div>
+                    </div>
 
-                        {/* Achievements */}
-                        <div className="mb-6">
-                            <h3 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
-                                <span className="text-wc-gold">🏅</span>
-                                Logros
-                            </h3>
-                            <div className="grid grid-cols-4 gap-3">
-                                {achievements.map((achievement, index) => (
-                                    <div
-                                        key={index}
-                                        className={`p-3 rounded-xl border transition-all duration-300 ${achievement.unlocked
-                                                ? 'bg-wc-gold/10 border-wc-gold/40 hover:border-wc-gold/60 hover:scale-110'
-                                                : 'bg-gray-700/30 border-gray-600/30 opacity-50'
-                                            }`}
-                                    >
-                                        <div className="text-3xl mb-1 text-center">{achievement.icon}</div>
-                                        <p className={`text-[10px] text-center font-medium ${achievement.unlocked ? 'text-wc-gold' : 'text-gray-500'
-                                            }`}>
-                                            {achievement.label}
-                                        </p>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* Action Buttons */}
-                        <div className="grid grid-cols-2 gap-3">
-                            <button className="py-3 bg-gradient-to-r from-wc-green to-wc-green-light text-white rounded-xl font-bold hover:shadow-[0_0_20px_rgba(0,209,178,0.5)] transition-all duration-300 hover:scale-105">
-                                Editar Perfil
-                            </button>
-                            <button className="py-3 bg-white/5 border border-white/20 text-white rounded-xl font-bold hover:bg-white/10 transition-all duration-300 hover:scale-105">
-                                Compartir
-                            </button>
-                        </div>
+                    {/* Action Buttons */}
+                    <div className="grid grid-cols-2 gap-4">
+                        <button className="py-4 bg-wc-green text-white rounded-xl font-bold text-base hover:bg-green-700 transition shadow-md">
+                            Editar Perfil
+                        </button>
+                        <button className="py-4 bg-gray-100 border-2 border-gray-200 text-gray-700 rounded-xl font-bold text-base hover:bg-gray-200 transition">
+                            Compartir
+                        </button>
                     </div>
                 </div>
             </div>

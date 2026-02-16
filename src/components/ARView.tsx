@@ -61,14 +61,7 @@ export function ARView({ onScan, onBack }: ARViewProps) {
                     </div>
                 )}
 
-                {/* Info Text */}
-                {started && (
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 translate-y-40 text-center">
-                        <p className="text-white text-base font-bold animate-pulse drop-shadow-[0_0_10px_rgba(0,0,0,0.8)] bg-green-900/60 px-6 py-2 rounded-full border-2 border-white/30">
-                            ⚽ Buscando jugador...
-                        </p>
-                    </div>
-                )}
+
             </div>
 
             {/* UI Overlay */}
@@ -91,21 +84,14 @@ export function ARView({ onScan, onBack }: ARViewProps) {
                     )}
                 </div>
 
-                {/* Footer Instructions */}
-                <div className="text-center pointer-events-auto pb-8">
-                    <p className="text-white bg-green-900/80 inline-block px-6 py-3 rounded-xl backdrop-blur-md border-2 border-white/50 shadow-lg font-semibold">
-                        Apunta a la estampa para escanear ⚽
-                    </p>
-
-                    {/* Mock Trigger Button for Testing */}
-                    <div className="mt-4">
-                        <button
-                            onClick={() => onScan("MES-10")}
-                            className="bg-white text-green-800 px-8 py-4 rounded-xl font-bold border-2 border-yellow-400 hover:bg-yellow-400 hover:text-green-900 transition-all shadow-xl hover:shadow-2xl active:scale-95"
-                        >
-                            ⚽ Simular Escaneo
-                        </button>
-                    </div>
+                {/* Camera Button - Football Style - Centered */}
+                <div className="flex justify-center items-end pointer-events-auto pb-8">
+                    <button
+                        onClick={() => onScan("MES-10")}
+                        className="w-20 h-20 bg-white rounded-full border-4 border-yellow-400 flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all hover:shadow-[0_0_30px_rgba(250,204,21,0.8)]"
+                    >
+                        <span className="text-5xl">⚽</span>
+                    </button>
                 </div>
             </div>
 
