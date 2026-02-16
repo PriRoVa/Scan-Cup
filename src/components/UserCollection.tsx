@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Card } from '../types';
 import { CardStats } from './CardStats';
-import { CardFilterModal, type FilterOptions } from './CardFilterModal';
+
 
 interface UserCollectionProps {
     cards: Card[];
@@ -10,7 +10,7 @@ interface UserCollectionProps {
 export function UserCollection({ cards }: UserCollectionProps) {
     const [selectedCard, setSelectedCard] = useState<Card | null>(null);
     const [showStats, setShowStats] = useState(false);
-    const [showFilterModal, setShowFilterModal] = useState(false);
+
 
     // Calculate stats
     const totalCards = cards.length;
@@ -29,20 +29,7 @@ export function UserCollection({ cards }: UserCollectionProps) {
         setSelectedCard(null);
     };
 
-    const handleAddFilters = () => {
-        setShowStats(false);
-        setShowFilterModal(true);
-    };
 
-    const handleCloseFilterModal = () => {
-        setShowFilterModal(false);
-        setSelectedCard(null);
-    };
-
-    const handleApplyFilters = (filters: FilterOptions) => {
-        console.log('Filters applied to card:', selectedCard?.name, filters);
-        // Here you would implement the actual filter logic
-    };
 
     return (
         <div className="min-h-screen bg-wc-light-bg pb-24 px-6 pt-10">
@@ -116,18 +103,10 @@ export function UserCollection({ cards }: UserCollectionProps) {
                 <CardStats
                     card={selectedCard}
                     onClose={handleCloseStats}
-                    onAddFilters={handleAddFilters}
                 />
             )}
 
-            {selectedCard && showFilterModal && (
-                <CardFilterModal
-                    card={selectedCard}
-                    isOpen={showFilterModal}
-                    onClose={handleCloseFilterModal}
-                    onApplyFilters={handleApplyFilters}
-                />
-            )}
+
         </div>
     );
 }

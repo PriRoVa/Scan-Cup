@@ -1,4 +1,3 @@
-
 import type { User } from '../types';
 
 interface HomeProps {

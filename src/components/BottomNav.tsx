@@ -1,5 +1,3 @@
-
-
 interface BottomNavProps {
     currentView: 'home' | 'user-collection' | 'catalog' | 'profile' | 'trivia' | 'market';
     onChangeView: (view: 'home' | 'user-collection' | 'catalog' | 'profile' | 'trivia' | 'market') => void;
