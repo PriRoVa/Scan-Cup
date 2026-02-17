@@ -8,9 +8,12 @@ import { UserProfile } from './components/UserProfile'
 import { ARView } from './components/ARView'
 import { Trivia } from './components/Trivia'
 import { ScanResult } from './components/ScanResult'
+import { ShowVideos } from './components/ShowVideos'
+import { EditVideos } from './components/EditVideos'
 
 function App() {
-  const [view, setView] = useState<'home' | 'scan' | 'user-collection' | 'catalog' | 'profile' | 'trivia' | 'market' | 'scan-result'>('home');
+  const [view, setView] = useState<'home' | 'scan' | 'user-collection' | 'catalog' | 'profile' | 'trivia' | 'market' | 'scan-result' | 'show-videos' | 'edit-video'>('home');
+  const [selectedVideo, setSelectedVideo] = useState<any>(null);
 
   const handleNavChange = (newView: typeof view) => {
     setView(newView);
@@ -35,7 +38,11 @@ function App() {
       case 'scan':
         return <ARView onScan={() => setView('scan-result')} onBack={() => setView('home')} />;
       case 'scan-result':
-        return <ScanResult card={mockCards[0]} onAdd={() => setView('user-collection')} onDiscard={() => setView('home')} />;
+        return <ScanResult card={mockCards[0]} onAdd={() => setView('user-collection')} onDiscard={() => setView('home')} onStartTrivia={() => setView('trivia')} />;
+      case 'show-videos':
+        return <ShowVideos onVideoSelect={(video) => { setSelectedVideo(video); setView('edit-video'); }} onBack={() => setView('home')} />;
+      case 'edit-video':
+        return <EditVideos video={selectedVideo} onBack={() => setView('show-videos')} />;
       case 'trivia':
         return <Trivia />;
       case 'market':

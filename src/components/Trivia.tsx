@@ -17,7 +17,7 @@ export function Trivia() {
         },
         options: [
             { id: 'A', text: "West Ham United" },
-            { id: 'B', text: "Manchester United", correct: true },
+            { id: 'B', text: "Manchester United" },
             { id: 'C', text: "Arsenal FC" },
             { id: 'D', text: "Liverpool FC" }
         ]
@@ -87,35 +87,19 @@ export function Trivia() {
                             key={option.id}
                             onClick={() => handleAnswer(option.id)}
                             className={`w-full p-4 rounded-xl flex items-center justify-between font-bold transition-all duration-200 group relative overflow-hidden ${selectedAnswer === option.id
-                                ? option.correct
-                                    ? 'bg-yellow-400 text-black shadow-[0_0_20px_rgba(253,224,71,0.5)] transform scale-[1.02]'
-                                    : 'bg-wc-red text-white'
+                                ? 'bg-wc-green text-white shadow-lg transform scale-[1.02]'
                                 : 'bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10'
                                 }`}
                         >
-                            <div className="flex items-center space-x-4 relative z-10">
+                            <div className="flex items-center space-x-4 relative z-10 w-full">
                                 <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm ${selectedAnswer === option.id
-                                    ? 'bg-black/20 text-current'
+                                    ? 'bg-white text-wc-green'
                                     : 'bg-white/10 text-gray-400 group-hover:bg-white/20 group-hover:text-white'
                                     }`}>
                                     {option.id}
                                 </div>
                                 <span>{option.text}</span>
                             </div>
-
-                            {selectedAnswer === option.id && (
-                                <div className="text-current relative z-10">
-                                    {option.correct ? (
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                        </svg>
-                                    ) : (
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                                        </svg>
-                                    )}
-                                </div>
-                            )}
                         </button>
                     ))}
                 </div>

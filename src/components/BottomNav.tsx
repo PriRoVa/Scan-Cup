@@ -1,6 +1,6 @@
 interface BottomNavProps {
-    currentView: 'home' | 'user-collection' | 'catalog' | 'profile' | 'trivia' | 'market';
-    onChangeView: (view: 'home' | 'user-collection' | 'catalog' | 'profile' | 'trivia' | 'market') => void;
+    currentView: 'home' | 'user-collection' | 'catalog' | 'profile' | 'trivia' | 'market' | 'show-videos' | 'edit-video';
+    onChangeView: (view: 'home' | 'user-collection' | 'catalog' | 'profile' | 'trivia' | 'market' | 'show-videos' | 'edit-video') => void;
 }
 
 export function BottomNav({ currentView, onChangeView }: BottomNavProps) {
@@ -29,6 +29,16 @@ export function BottomNav({ currentView, onChangeView }: BottomNavProps) {
             icon: (active: boolean) => (
                 <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${active ? 'fill-current' : 'stroke-current fill-none'}`} viewBox="0 0 24 24" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+            )
+        },
+        {
+            id: 'show-videos',
+            label: 'Videos',
+            icon: (active: boolean) => (
+                <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 w-6 ${active ? 'fill-current' : 'stroke-current fill-none'}`} viewBox="0 0 24 24" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
             )
         }

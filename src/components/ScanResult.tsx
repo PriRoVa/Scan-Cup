@@ -6,9 +6,10 @@ interface ScanResultProps {
     card: Card;
     onAdd: () => void;
     onDiscard: () => void;
+    onStartTrivia: () => void;
 }
 
-export function ScanResult({ card, onAdd, onDiscard }: ScanResultProps) {
+export function ScanResult({ card, onAdd, onDiscard, onStartTrivia }: ScanResultProps) {
     const [animate, setAnimate] = useState(false);
     const [showStats, setShowStats] = useState(false);
 
@@ -106,7 +107,10 @@ export function ScanResult({ card, onAdd, onDiscard }: ScanResultProps) {
             {showStats && (
                 <CardStats
                     card={card}
-                    onClose={() => setShowStats(false)}
+                    onClose={() => {
+                        setShowStats(false);
+                        onStartTrivia();
+                    }}
                 />
             )}
         </>
