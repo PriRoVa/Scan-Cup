@@ -7,9 +7,10 @@ import * as THREE from 'three'
 interface ModeloProps {
   textureId: string
   qrData?: any
+  preview?: boolean
 }
 
-export default function Modelo({ textureId, qrData }: ModeloProps) {
+export default function Modelo({ textureId, qrData, preview }: ModeloProps) {
   const trackingRef = useRef<THREE.Group>(null!)
   const animationRef = useRef<THREE.Group>(null!)
 
@@ -60,7 +61,14 @@ export default function Modelo({ textureId, qrData }: ModeloProps) {
     if (!trackingRef.current || !animationRef.current) return
 
     if (!qrData) {
-      trackingRef.current.visible = false
+      if (!preview) {
+        trackingRef.current.visible = false
+        return
+      }
+
+      // Modo preview (ScanResult)
+      trackingRef.current.visible = true
+      trackingRef.current.position.set(0, 0, 0)
       return
     }
 

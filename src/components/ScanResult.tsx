@@ -38,7 +38,10 @@ export function ScanResult({
         >
           {/* HEADER */}
           <div className="flex justify-between items-center p-6 pb-2">
-            <button onClick={onDiscard} className="p-2 rounded-full hover:bg-gray-100">
+            <button
+              onClick={onDiscard}
+              className="p-2 rounded-full hover:bg-gray-100"
+            >
               ✖
             </button>
 
@@ -55,39 +58,66 @@ export function ScanResult({
               Carta Escaneada
             </h2>
 
-            {/* MODELO / IMAGEN */}
-            <div className="mt-10 mb-10 relative flex justify-center">
+            {modelId && (
+              <div className="mt-10 mb-10 relative flex justify-center">
 
-              <div className="absolute inset-0 bg-red-500/20 blur-3xl rounded-full scale-150 animate-pulse"></div>
+                {/* Glow detrás */}
+                <div className="absolute inset-0 bg-red-500/20 blur-3xl rounded-full scale-150 animate-pulse"></div>
 
-              <div className="relative z-10 w-72 aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl border border-gray-100 bg-white">
+                {/* Contenedor sin fondo */}
+                <div className="relative z-10 w-72 aspect-[3/4]">
 
-                {modelId ? (
-                  <Canvas camera={{ position: [0, 0, 4], fov: 50 }}>
-                    <ambientLight intensity={1} />
-                    <directionalLight position={[5, 5, 5]} intensity={1.5} />
-                    <OrbitControls enableZoom enablePan={false} />
-                    <Modelo textureId={modelId} />
-                  </Canvas>
-                ) : (
-                  <div className="w-full h-full relative">
-                    <img
-                      src={card.imageUrl}
-                      alt={card.name}
-                      className="w-full h-full object-cover"
+                  <Canvas
+                    camera={{ position: [0, 0, 4], fov: 50 }}
+                    gl={{
+                      alpha: true,
+                      antialias: true
+                    }}
+                    onCreated={({ gl }) => {
+                      gl.setClearColor(0x000000, 0)
+                    }}
+                  >
+
+                    {/* Luz base natural */}
+                    <hemisphereLight
+                      intensity={0.7}
+                      groundColor="#555555"
                     />
-                    <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/80 to-transparent"></div>
-                    <div className="absolute bottom-4 left-4 text-white text-left">
-                      <div className="text-2xl font-bold">{card.name}</div>
-                      <div className="text-xs opacity-80">
-                        {card.country} • {card.position}
-                      </div>
-                    </div>
-                  </div>
-                )}
 
+                    {/* Luz principal frontal */}
+                    <directionalLight
+                      position={[3, 4, 5]}
+                      intensity={0.9}
+                    />
+
+                    {/* Luz secundaria lateral */}
+                    <directionalLight
+                      position={[-3, -2, 5]}
+                      intensity={0.4}
+                    />
+
+                    {/* Luz trasera suave */}
+                    <directionalLight
+                      position={[0, 2, -5]}
+                      intensity={0.35}
+                    />
+
+                    {/* Modelo escalado y centrado */}
+                    <group
+                      scale={0.60}
+                      position={[0, 0, 0]}
+                      rotation={[50.2, -26.5, 49.85]}
+                    >
+                      <Modelo textureId={modelId} preview />
+                    </group>
+
+                    <OrbitControls enableZoom enablePan={false} />
+
+                  </Canvas>
+
+                </div>
               </div>
-            </div>
+            )}
 
             {/* BOTONES */}
             <div className="grid grid-cols-2 gap-4 mb-4">
