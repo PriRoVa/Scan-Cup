@@ -1,20 +1,16 @@
 import { useLoader, useFrame, useThree } from '@react-three/fiber'
 import { OBJLoader } from 'three-stdlib'
 import { TextureLoader } from 'three'
-import { useEffect, useRef, useMemo } from 'react'
+import { useRef, useMemo } from 'react'
 import * as THREE from 'three'
 
 interface ModeloProps {
   textureId: string
-  qrData?: any
-  preview?: boolean
 }
 
-export default function Modelo({ textureId, qrData, preview }: ModeloProps) {
+export default function Modelo({ textureId }: ModeloProps) {
   const trackingRef = useRef<THREE.Group>(null!)
   const animationRef = useRef<THREE.Group>(null!)
-
-  const { camera, size } = useThree()
 
   const obj = useLoader(OBJLoader, '/models/cromo.obj')
 
@@ -57,64 +53,34 @@ export default function Modelo({ textureId, qrData, preview }: ModeloProps) {
 
   const targetPosition = useRef(new THREE.Vector3())
 
-  useFrame((state, delta) => {
+  useFrame((state: any, delta: number) => {
     if (!trackingRef.current || !animationRef.current) return
-
-    if (!qrData) {
-      if (!preview) {
-        trackingRef.current.visible = false
-        return
-      }
-
-      // Modo preview (ScanResult)
-      trackingRef.current.visible = true
-      trackingRef.current.position.set(0, 0, 0)
-      return
-    }
 
     trackingRef.current.visible = true
 
-    const { topLeftCorner, topRightCorner, bottomRightCorner } = qrData
+    // Ahora el modelo siempre va al centro, sin importar dónde esté el QR
+    targetPosition.current.set(0, 0, 0)
 
-    const centerX = (topLeftCorner.x + bottomRightCorner.x) / 2
-    const centerY = (topLeftCorner.y + bottomRightCorner.y) / 2
-
-    const mirroredX = size.width - centerX
-
-    const ndcX = (mirroredX / size.width) * 2 - 1
-    const ndcY = -(centerY / size.height) * 2 + 1
-
-    const vector = new THREE.Vector3(ndcX, ndcY, 0.5)
-    vector.unproject(camera)
-
-    const dir = vector.sub(camera.position).normalize()
-
-    const qrWidth = Math.hypot(
-      topRightCorner.x - topLeftCorner.x,
-      topRightCorner.y - topLeftCorner.y
-    )
-
-    const distance = THREE.MathUtils.clamp(700 / qrWidth, 2, 12)
-
-    const pos = camera.position.clone().add(dir.multiplyScalar(distance))
-
-    targetPosition.current.copy(pos)
-
-    // Seguimiento ULTRA fluido
+    // Movimiento ULTRA fluido hacia el centro
     const damping = 1 - Math.exp(-15 * delta)
     trackingRef.current.position.lerp(targetPosition.current, damping)
 
-    // ROTACIÓN INFINITA REAL NO FAKE
-    animationRef.current.rotation.y += delta * 2
+    // ROTACIÓN Y FLOTACIÓN (solo cuando no hay qrData para centrarse, o rotar siempre de otra forma? 
+    // Vamos a rotar sobre su propio eje.
+    animationRef.current.rotation.y += delta * 1.5
 
     // Flotación constante suave
     animationRef.current.position.y = Math.sin(state.clock.elapsedTime * 2) * 0.15
   })
 
+  // Agregamos un grupo intermedio que lo gire un poco hacia arriba para que se vea mejor la carta (inclinación)
+  // Y reducimos la rotación x para que no esté totalmente plana
   return (
-    <group ref={trackingRef} scale={[1.4, 1.4, 1.4]}>
-      <group ref={animationRef}>
-        <primitive object={model} />
+    <group ref={trackingRef} scale={[1.1, 1.1, 1.1]}>
+      <group rotation={[Math.PI / -8, 0, 0]}>
+        <group ref={animationRef}>
+          <primitive object={model} />
+        </group>
       </group>
     </group>
   )
