@@ -107,7 +107,7 @@ export function ScanResult({
                       position={[0, 0, 0]}
                       rotation={[50.2, -26.5, 49.85]}
                     >
-                      <Modelo textureId={modelId} />
+                      <Modelo textureId={modelId} preview={true} />
                     </group>
 
                     <OrbitControls enableZoom enablePan={false} />

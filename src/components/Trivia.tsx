@@ -7,55 +7,137 @@ interface TriviaProps {
     modelId?: string | null;
 }
 
-export function Trivia({ modelId }: TriviaProps) {
-    const questions = [
-        {
-            id: 1,
-            number: 1,
-            total: 2,
-            level: 'Pro',
-            streak: 12,
-            text: "¿En cuántas ediciones de la Copa del Mundo de la FIFA ha sido convocado Guillermo Ochoa con la Selección Mexicana?",
-            options: [
-                { id: 'A', text: "3" },
-                { id: 'B', text: "4" },
-                { id: 'C', text: "5" },
-                { id: 'D', text: "6" }
-            ],
-            correct: 'C'
-        },
-        {
-            id: 2,
-            number: 2,
-            total: 2,
-            level: 'Pro',
-            streak: 13,
-            text: "¿Cuál fue el primer club europeo en el que militó Memo Ochoa, convirtiéndose en el primer portero mexicano en jugar en el viejo continente?",
-            options: [
-                { id: 'A', text: "Málaga CF (España)" },
-                { id: 'B', text: "Granada CF (España)" },
-                { id: 'C', text: "Standard de Lieja (Bélgica)" },
-                { id: 'D', text: "AC Ajaccio (Francia)" }
-            ],
-            correct: 'D'
-        }
-    ];
+interface Player {
+    name: string;
+    position: string;
+    team: string;
+    image: string;
+}
 
-    const player = {
-        name: "M. Rashford",
-        position: "DEL",
-        team: "ENG",
-        image: "https://images.unsplash.com/photo-1517466787929-bc90951d6dbd?q=80&w=2670&auto=format&fit=crop"
+interface Option {
+    id: string;
+    text: string;
+}
+
+interface Question {
+    id: number;
+    number: number;
+    total: number;
+    level: string;
+    streak: number;
+    text: string;
+    options: Option[];
+    correct: string;
+}
+
+interface TriviaData {
+    player: Player;
+    questions: Question[];
+}
+
+export function Trivia({ modelId }: TriviaProps) {
+    const triviaData: Record<string, TriviaData> = {
+        'ochoa': {
+            player: {
+                name: "G. Ochoa",
+                position: "POR",
+                team: "MEX",
+                image: "https://images.unsplash.com/photo-1517466787929-bc90951d6dbd?q=80&w=2670&auto=format&fit=crop"
+            },
+            questions: [
+                {
+                    id: 1,
+                    number: 1,
+                    total: 2,
+                    level: 'Pro',
+                    streak: 12,
+                    text: "¿En cuántas ediciones de la Copa del Mundo de la FIFA ha sido convocado Guillermo Ochoa con la Selección Mexicana?",
+                    options: [
+                        { id: 'A', text: "3" },
+                        { id: 'B', text: "4" },
+                        { id: 'C', text: "5" },
+                        { id: 'D', text: "6" }
+                    ],
+                    correct: 'C'
+                },
+                {
+                    id: 2,
+                    number: 2,
+                    total: 2,
+                    level: 'Pro',
+                    streak: 13,
+                    text: "¿Cuál fue el primer club europeo en el que militó Memo Ochoa, convirtiéndose en el primer portero mexicano en jugar en el viejo continente?",
+                    options: [
+                        { id: 'A', text: "Málaga CF (España)" },
+                        { id: 'B', text: "Granada CF (España)" },
+                        { id: 'C', text: "Standard de Lieja (Bélgica)" },
+                        { id: 'D', text: "AC Ajaccio (Francia)" }
+                    ],
+                    correct: 'D'
+                }
+            ]
+        },
+        'messi': {
+            player: {
+                name: "L. Messi",
+                position: "DEL",
+                team: "ARG",
+                image: "https://images.unsplash.com/photo-1517466787929-bc90951d6dbd?q=80&w=2670&auto=format&fit=crop"
+            },
+            questions: [
+                {
+                    id: 1,
+                    number: 1,
+                    total: 2,
+                    level: 'Leyenda',
+                    streak: 1,
+                    text: "¿En qué año ganó Messi su primer Balón de Oro?",
+                    options: [
+                        { id: 'A', text: "2008" },
+                        { id: 'B', text: "2009" },
+                        { id: 'C', text: "2010" },
+                        { id: 'D', text: "2011" }
+                    ],
+                    correct: 'B'
+                },
+                {
+                    id: 2,
+                    number: 2,
+                    total: 2,
+                    level: 'Leyenda',
+                    streak: 2,
+                    text: "¿A qué selección le anotó Messi su primer gol en un Mundial (2006)?",
+                    options: [
+                        { id: 'A', text: "Serbia y Montenegro" },
+                        { id: 'B', text: "Costa de Marfil" },
+                        { id: 'C', text: "Irán" },
+                        { id: 'D', text: "Bosnia" }
+                    ],
+                    correct: 'A'
+                }
+            ]
+        }
     };
+
+    // Obtenemos los datos basados en el modelId, o mandamos un default si no encuentra coincidencia/viene nulo
+    const currentData = modelId && triviaData[modelId] ? triviaData[modelId] : triviaData['ochoa'];
+    const { questions, player } = currentData;
 
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
     const [isFinished, setIsFinished] = useState(false);
+    const [score, setScore] = useState(0);
 
     const question = questions[currentQuestionIndex];
 
     const handleAnswer = (id: string) => {
+        if (selectedAnswer) return; // Prevent multiple clicks
+
         setSelectedAnswer(id);
+
+        if (id === question.correct) {
+            setScore(prev => prev + 1);
+        }
 
         // Wait a moment before moving to the next question
         setTimeout(() => {
@@ -65,7 +147,7 @@ export function Trivia({ modelId }: TriviaProps) {
             } else {
                 setIsFinished(true);
             }
-        }, 1000);
+        }, 1500);
     };
 
     if (isFinished) {
@@ -73,7 +155,9 @@ export function Trivia({ modelId }: TriviaProps) {
             <div className="min-h-screen bg-[#022c22] text-white p-6 flex flex-col items-center justify-center relative overflow-hidden">
                 <div className="absolute inset-0 bg-wc-green-light blur-[150px] opacity-20 -z-10"></div>
                 <h2 className="text-4xl font-bold text-center mb-4 text-wc-green drop-shadow-lg">¡Trivia Completada!</h2>
-                <p className="text-gray-300 text-lg mb-8 text-center max-w-xs">Has respondido las dos preguntas perfectamente.</p>
+                <p className="text-gray-300 text-lg mb-8 text-center max-w-xs">
+                    Has respondido {score} de {questions.length} preguntas correctamente.
+                </p>
                 <button
                     onClick={() => window.location.reload()} // O podrías usar un onBack si lo pasas por props
                     className="py-4 px-10 rounded-full bg-wc-green text-white font-bold hover:bg-green-500 transition-all shadow-[0_0_20px_rgba(34,197,94,0.4)] active:scale-95"
@@ -160,26 +244,41 @@ export function Trivia({ modelId }: TriviaProps) {
                 </h2>
 
                 <div className="space-y-3">
-                    {question.options.map((option) => (
-                        <button
-                            key={option.id}
-                            onClick={() => handleAnswer(option.id)}
-                            className={`w-full p-4 rounded-xl flex items-center justify-between font-bold transition-all duration-200 group relative overflow-hidden ${selectedAnswer === option.id
-                                ? 'bg-wc-green text-white shadow-lg transform scale-[1.02]'
-                                : 'bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10'
-                                }`}
-                        >
-                            <div className="flex items-center space-x-4 relative z-10 w-full">
-                                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm ${selectedAnswer === option.id
-                                    ? 'bg-white text-wc-green'
-                                    : 'bg-white/10 text-gray-400 group-hover:bg-white/20 group-hover:text-white'
-                                    }`}>
-                                    {option.id}
+                    {question.options.map((option) => {
+                        const isSelected = selectedAnswer === option.id;
+                        const isCorrect = option.id === question.correct;
+                        const showCorrect = selectedAnswer !== null && isCorrect;
+                        const showIncorrect = isSelected && !isCorrect;
+
+                        let buttonClass = 'bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white border border-white/10';
+                        let badgeClass = 'bg-white/10 text-gray-400 group-hover:bg-white/20 group-hover:text-white';
+
+                        if (showCorrect) {
+                            buttonClass = 'bg-wc-green text-white shadow-lg transform scale-[1.02] border-wc-green';
+                            badgeClass = 'bg-white text-wc-green';
+                        } else if (showIncorrect) {
+                            buttonClass = 'bg-wc-red text-white shadow-lg transform scale-[1.02] border-wc-red';
+                            badgeClass = 'bg-white text-wc-red';
+                        } else if (selectedAnswer) {
+                            buttonClass = 'bg-white/5 text-gray-500 border-white/5 opacity-50'; // Opaca las opciones no seleccionadas
+                        }
+
+                        return (
+                            <button
+                                key={option.id}
+                                disabled={selectedAnswer !== null}
+                                onClick={() => handleAnswer(option.id)}
+                                className={`w-full p-4 rounded-xl flex items-center justify-between font-bold transition-all duration-200 group relative overflow-hidden ${buttonClass}`}
+                            >
+                                <div className="flex items-center space-x-4 relative z-10 w-full">
+                                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm ${badgeClass}`}>
+                                        {option.id}
+                                    </div>
+                                    <span>{option.text}</span>
                                 </div>
-                                <span>{option.text}</span>
-                            </div>
-                        </button>
-                    ))}
+                            </button>
+                        );
+                    })}
                 </div>
             </div>
         </div>
