@@ -11,7 +11,6 @@ interface ARViewProps {
 
 export function ARView({ onScan, onBack }: ARViewProps) {
   const [modelId, setModelId] = useState<string | null>(null)
-  const [qrData, setQrData] = useState<any>(null)
 
   useEffect(() => {
     if (modelId) {
@@ -99,30 +98,13 @@ export function ARView({ onScan, onBack }: ARViewProps) {
         if (code) {
           if (!modelId) setModelId(code.data)
 
-          const scaleX = video.videoWidth / scanWidth
-          const scaleY = video.videoHeight / scanHeight
 
-          const scaledLocation = {
-            topLeftCorner: {
-              x: code.location.topLeftCorner.x * scaleX,
-              y: code.location.topLeftCorner.y * scaleY
-            },
-            topRightCorner: {
-              x: code.location.topRightCorner.x * scaleX,
-              y: code.location.topRightCorner.y * scaleY
-            },
-            bottomRightCorner: {
-              x: code.location.bottomRightCorner.x * scaleX,
-              y: code.location.bottomRightCorner.y * scaleY
-            }
-          }
 
-          setQrData(scaledLocation)
           missCounter.current = 0
         } else {
           missCounter.current++
           if (missCounter.current > 15) {
-            setQrData(null)
+            // No action needed as qrData is removed
           }
         }
 

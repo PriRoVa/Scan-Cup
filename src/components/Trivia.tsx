@@ -15,14 +15,14 @@ export function Trivia({ modelId }: TriviaProps) {
             total: 2,
             level: 'Pro',
             streak: 12,
-            text: "¿En qué club hizo su debut senior este jugador?",
+            text: "¿En cuántas ediciones de la Copa del Mundo de la FIFA ha sido convocado Guillermo Ochoa con la Selección Mexicana?",
             options: [
-                { id: 'A', text: "West Ham United" },
-                { id: 'B', text: "Manchester United" },
-                { id: 'C', text: "Arsenal FC" },
-                { id: 'D', text: "Liverpool FC" }
+                { id: 'A', text: "3" },
+                { id: 'B', text: "4" },
+                { id: 'C', text: "5" },
+                { id: 'D', text: "6" }
             ],
-            correct: 'B'
+            correct: 'C'
         },
         {
             id: 2,
@@ -30,14 +30,14 @@ export function Trivia({ modelId }: TriviaProps) {
             total: 2,
             level: 'Pro',
             streak: 13,
-            text: "¿Cuántos goles anotó en la temporada 2022-2023?",
+            text: "¿Cuál fue el primer club europeo en el que militó Memo Ochoa, convirtiéndose en el primer portero mexicano en jugar en el viejo continente?",
             options: [
-                { id: 'A', text: "15" },
-                { id: 'B', text: "22" },
-                { id: 'C', text: "30" },
-                { id: 'D', text: "40" }
+                { id: 'A', text: "Málaga CF (España)" },
+                { id: 'B', text: "Granada CF (España)" },
+                { id: 'C', text: "Standard de Lieja (Bélgica)" },
+                { id: 'D', text: "AC Ajaccio (Francia)" }
             ],
-            correct: 'C'
+            correct: 'D'
         }
     ];
 

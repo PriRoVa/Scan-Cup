@@ -1,4 +1,4 @@
-import { useLoader, useFrame, useThree } from '@react-three/fiber'
+import { useLoader, useFrame } from '@react-three/fiber'
 import { OBJLoader } from 'three-stdlib'
 import { TextureLoader } from 'three'
 import { useRef, useMemo } from 'react'
