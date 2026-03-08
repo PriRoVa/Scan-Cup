@@ -13,22 +13,6 @@ export function ARView({ onScan, onBack }: ARViewProps) {
   const [modelId, setModelId] = useState<string | null>(null)
   const [qrData, setQrData] = useState<any>(null)
   const [isMobile, setIsMobile] = useState(false)
-  const lastConfettiTimeRef = useRef<number>(0)
-
-  useEffect(() => {
-    if (modelId && qrData) {
-      const now = Date.now()
-      if (now - lastConfettiTimeRef.current > 5000) {
-        confetti({
-          particleCount: 150,
-          spread: 80,
-          origin: { y: 0.6 },
-          colors: ['#FFD700', '#FF0000', '#008000', '#0000FF']
-        })
-        lastConfettiTimeRef.current = now
-      }
-    }
-  }, [modelId, qrData])
 
   const videoRef = useRef<HTMLVideoElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -195,10 +179,6 @@ export function ARView({ onScan, onBack }: ARViewProps) {
         <directionalLight position={[5, 5, 5]} intensity={1.5} />
         {modelId && qrData && (
           <Modelo textureId={modelId} qrData={qrData} />
-          <Modelo
-            textureId={modelId}
-            qrData={qrData}
-          />
         )}
       </Canvas>
 
